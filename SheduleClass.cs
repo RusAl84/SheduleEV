@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -40,6 +42,49 @@ namespace SheduleEV
       sh.name = _shed.name;
       sh.priority = _shed.priority;
       shed_mas.Add(sh);
+    }
+
+    public SheduleClass Get(int pos)
+    {
+      return shed_mas[pos];
+    }
+
+    public int Size()
+    {
+      return shed_mas.Count;
+    }
+
+    public void SaveToFile(string FileName)
+    {
+      string json = JsonConvert.SerializeObject(shed_mas);
+      Console.WriteLine(json);
+      using (StreamWriter sw = new StreamWriter(FileName, false, System.Text.Encoding.Default))
+      {
+        sw.WriteLine(json);
+      }
+    }
+
+    public void LoadFromFile(string FileName)
+    {
+      string json = "";
+      using (StreamReader sr = new StreamReader(FileName))
+      {
+        json = sr.ReadToEnd();
+      }
+
+      SheduleMasClass dshed_mas = new SheduleMasClass();
+      json= json.Replace("\\", "");
+      Console.WriteLine(json);
+      dshed_mas = JsonConvert.DeserializeObject<SheduleMasClass>(json);
+      Console.WriteLine(dshed_mas);
+      shed_mas.Clear();
+      for(int i=0; i < dshed_mas.Size();i++)
+      {
+        SheduleClass shed = new SheduleClass();
+        shed = dshed_mas.Get(i);
+        shed_mas.Add(shed);
+      }
+
     }
 
     public override string ToString()
