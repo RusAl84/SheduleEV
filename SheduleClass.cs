@@ -32,6 +32,7 @@ namespace SheduleEV
       return str1;
     }
   }
+
   public class SheduleMasClass
   {
     public List<SheduleClass> shed_mas = new List<SheduleClass>();
@@ -57,7 +58,7 @@ namespace SheduleEV
     public void SaveToFile(string FileName)
     {
       string json = JsonConvert.SerializeObject(shed_mas);
-      Console.WriteLine(json);
+      //Console.WriteLine(json);
       using (StreamWriter sw = new StreamWriter(FileName, false, System.Text.Encoding.Default))
       {
         sw.WriteLine(json);
@@ -73,18 +74,17 @@ namespace SheduleEV
       }
 
       SheduleMasClass dshed_mas = new SheduleMasClass();
-      json= json.Replace("\\", "");
-      Console.WriteLine(json);
-      dshed_mas = JsonConvert.DeserializeObject<SheduleMasClass>(json);
-      Console.WriteLine(dshed_mas);
+      //Console.WriteLine(json);
+      List<SheduleClass> ldshed_mas = new List<SheduleClass>();
+      ldshed_mas = JsonConvert.DeserializeObject<List<SheduleClass>>(json);
+      //Console.WriteLine(ldshed_mas[1]);
       shed_mas.Clear();
-      for(int i=0; i < dshed_mas.Size();i++)
+      for (int i = 0; i < ldshed_mas.Count; i++)
       {
         SheduleClass shed = new SheduleClass();
-        shed = dshed_mas.Get(i);
+        shed = ldshed_mas[i];
         shed_mas.Add(shed);
       }
-
     }
 
     public override string ToString()

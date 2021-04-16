@@ -26,10 +26,10 @@ namespace SheduleEV
       shed.priority = 3;
       shed_mas.Add(shed);
 
-      //string json = JsonConvert.SerializeObject(shed_mas);
+      string json = JsonConvert.SerializeObject(shed_mas);
       //Console.WriteLine(json);
-      //shed_mas.SaveToFile(@"d:\fb.txt");
-      
+      shed_mas.SaveToFile(@"d:\fb.txt");
+
       SheduleMasClass dshed_mas = new SheduleMasClass();
       dshed_mas.LoadFromFile(@"d:\fb.txt");
       Console.WriteLine(dshed_mas);
